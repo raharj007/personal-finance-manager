@@ -14,9 +14,9 @@ class CreateImagesTable extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->string('id', 36);
+            $table->string('id', 32);
             $table->string('url');
-            $table->string('parent_id', 36);
+            $table->string('parent_id', 32);
             $table->string('parent_type');
             $table->timestamps();
             $table->softDeletes();
