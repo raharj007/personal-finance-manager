@@ -13,7 +13,7 @@ class Categories extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['type', 'name'];
 
-    public function transaction()
+    public function transactions()
     {
         return $this->hasMany(Transactions::class, 'category_id', 'id');
     }

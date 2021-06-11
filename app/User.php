@@ -2,13 +2,20 @@
 
 namespace App;
 
+use App\Models\Accounts;
+use App\Models\Images;
+use App\Models\Transactions;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'id', 'name', 'email', 'password',
     ];
 
     /**
@@ -36,4 +43,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transactions::class, 'user_id', 'id');
+    }
+
+    public function accounts()
+    {
+        return $this->hasMany(Accounts::class, 'user_id', 'id');
+    }
+
+    public function images()
+    {
+        return $this->morphOne(Images::class, 'parent');
+    }
+
+    public function getJWTIdentifier()
+    {
+        // TODO: Implement getJWTIdentifier() method.
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        // TODO: Implement getJWTCustomClaims() method.
+        return [];
+    }
 }

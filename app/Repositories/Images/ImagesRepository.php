@@ -13,4 +13,11 @@ class ImagesRepository extends BaseRepository implements ImagesRepositoryInterfa
     {
         parent::__construct(new Images());
     }
+
+    public function insert(array $values)
+    {
+        // TODO: Implement insert() method.
+        return $this->model->newQuery()
+            ->insert($values);
+    }
 }
